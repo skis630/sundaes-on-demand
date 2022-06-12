@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import OrderEntry from "./pages/entry/OrderEntry";
 
 function App() {
   const [buttonColor, setButtonColor] = useState("MediumVioletRed");
@@ -9,6 +10,7 @@ function App() {
 
   return (
     <div>
+      <OrderEntry />
       <button
         style={{
           backgroundColor: disabled ? "gray" : buttonColor,
