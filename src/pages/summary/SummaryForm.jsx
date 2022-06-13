@@ -8,9 +8,11 @@ export default function SummaryForm() {
   const [tcChecked, setTcChecked] = useState(false);
 
   const popover = (
-    <Popover.Body id="termsandconditions-popover">
-      No ice cream will actually be delivered
-    </Popover.Body>
+    <Popover>
+      <Popover.Body id="termsandconditions-popover">
+        No ice cream will actually be delivered
+      </Popover.Body>
+    </Popover>
   );
 
   const checkboxLabel = (
