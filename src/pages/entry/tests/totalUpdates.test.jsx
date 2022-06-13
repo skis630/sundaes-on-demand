@@ -1,6 +1,7 @@
 import { render, screen } from "../../../test-utils/testing-library-utils";
 import userEvent from "@testing-library/user-event";
 import Options from "../Options";
+import OrderEntry from "../OrderEntry";
 
 test("update scoop subtotal when scoops change", async () => {
   render(<Options optionType="scoops" />);
@@ -52,4 +53,29 @@ test("update toppings subtotal when toppings change", async () => {
   //   un-check cherries and validate subtotal
   await userEvent.click(cherriesToppingInput);
   expect(toppingsSubtotal).toHaveTextContent("1.50");
+});
+
+describe("Check that grand total updates properly", () => {
+  render(<OrderEntry />);
+  test("grand total starts out $0.00", () => {
+    const grandTotal = screen.getByRole("heading", {
+      name: /grand total: \$/i,
+    });
+    expect(grandTotal).toHaveTextContent("0.00");
+  });
+
+  test("add scoops first then toppings updates grand total", async () => {
+    //   add 1 scoop of vanilla and 1 scoop of chocolate
+    const vanillaInput = await screen.findByRole("spinbutton", {
+      name: "Vanilla",
+    });
+    await userEvent.clear(vanillaInput);
+    await userEvent.type(vanillaInput, "1");
+    const chocolateInput = await screen.findByRole("spinbutton", {
+      name: "Chocolate",
+    });
+    await userEvent.clear(chocolateInput);
+    await userEvent.type(chocolateInput, "1");
+  });
+  test("add toppings first then scoops updates grand total", async () => {});
 });
