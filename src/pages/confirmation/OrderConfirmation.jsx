@@ -4,7 +4,21 @@ import Button from "react-bootstrap/Button";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 
 function OrderConfirmation() {
-  const [OrderDetails, resetCounts] = useOrderDetails();
+  const [OrderDetails, updateItemCount] = useOrderDetails();
+
+  function resetCounts() {
+    const scoopOptions = [...OrderDetails.scoops.keys()];
+    const toppingOptions = [...OrderDetails.toppings.keys()];
+
+    // reset option counts to zero
+    scoopOptions.forEach((scoopItem) =>
+      updateItemCount(scoopItem, "0", "scoops")
+    );
+    toppingOptions.forEach((toppingItem) =>
+      updateItemCount(toppingItem, "0", "toppings")
+    );
+  }
+
   const newOrderHandler = () => {
     resetCounts();
     OrderDetails.phase.setOrderPhase("order");
