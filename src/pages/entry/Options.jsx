@@ -6,6 +6,7 @@ import ToppingOption from "./ToppingOption";
 import AlertBanner from "../../common/AlertBanner";
 import { pricePerItem } from "../../constants";
 import { useOrderDetails } from "../../contexts/OrderDetails";
+import { capitalize } from "../../utils";
 
 export default function Options({ optionType }) {
   const [items, setItems] = useState([]);
@@ -25,7 +26,7 @@ export default function Options({ optionType }) {
   if (error) return <AlertBanner />;
 
   const ItemComponent = optionType === "scoops" ? ScoopOption : ToppingOption;
-  const title = optionType[0].toUpperCase() + optionType.slice(1).toLowerCase();
+  const title = capitalize(optionType);
 
   const optionItems = items.map((item) => (
     <ItemComponent
