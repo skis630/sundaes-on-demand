@@ -1,14 +1,22 @@
+import { Button } from "react-bootstrap";
+
 import Options from "./Options";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 
 export default function OrderEntry() {
-  const [orderDetails] = useOrderDetails();
+  const [OrderDetails] = useOrderDetails();
 
   return (
     <div>
       <Options optionType="scoops" />
       <Options optionType="toppings" />
-      <h2>Grand total: {orderDetails.totals.grandTotal}</h2>
+      <h2>Grand total: {OrderDetails.totals.grandTotal}</h2>
+      <Button
+        variant="primary"
+        onClick={() => OrderDetails.phase.setOrderPhase("summary")}
+      >
+        Order
+      </Button>
     </div>
   );
 }
