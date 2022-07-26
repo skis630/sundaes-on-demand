@@ -11,7 +11,7 @@ test("order phases for happy path", async () => {
     name: "Vanilla",
   });
   await userEvent.clear(vanillaInput);
-  await userEvent.type(vanillaInput, "1");
+  userEvent.type(vanillaInput, "1");
   const cherriesToppingInput = await screen.findByRole("checkbox", {
     name: "Cherries",
   });
@@ -40,7 +40,7 @@ test("order phases for happy path", async () => {
   });
   await userEvent.click(checkbox);
   const button = screen.getByRole("button", "Confirm order");
-  await userEvent.click(button);
+  userEvent.click(button);
 
   // confirm order number on confirmation page
   const orderNumber = await screen.findByRole("heading", {
