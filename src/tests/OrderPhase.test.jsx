@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { getAllByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import App from "../App";
@@ -15,7 +15,7 @@ test("order phases for happy path", async () => {
   const cherriesToppingInput = await screen.findByRole("checkbox", {
     name: "Cherries",
   });
-  await userEvent.click(cherriesToppingInput);
+  userEvent.click(cherriesToppingInput);
 
   // find and click order button
   const orderBtn = screen.getByRole("button", { name: /order/i });
@@ -30,6 +30,9 @@ test("order phases for happy path", async () => {
   expect(toppingsTotal).toHaveTextContent("Toppings $1.5");
   const grandTotal = screen.getByRole("heading", { name: /total \$.+$/i });
   expect(grandTotal).toHaveTextContent("Total $3.5");
+  const optionsItems = screen.getAllByRole("listitem");
+  const optionsItemsText = optionsItems.map((item) => item.textContent);
+  expect(optionsItemsText).toEqual(["1 Vanilla", "Cherries"]);
 
   // accept terms and conditions and click button to cofirm order
   const checkbox = screen.getByRole("checkbox", {
