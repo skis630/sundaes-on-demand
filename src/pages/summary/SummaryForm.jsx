@@ -3,26 +3,13 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import axios from "axios";
 
-import { useOrderDetails } from "../../contexts/OrderDetails";
-import AlertBanner from "../../common/AlertBanner";
-
-export default function SummaryForm() {
+export default function SummaryForm({ setOrderPhase }) {
   const [tcChecked, setTcChecked] = useState(false);
-  const [error, setError] = useState(false);
-  const [OrderDetails] = useOrderDetails();
 
-  const orderSubmitHandler = async () => {
-    await axios
-      .post("http://localhost:3030/order")
-      .then((response) =>
-        OrderDetails.orderNumber.setOrderNumber(response.data.orderNumber)
-      )
-      .catch((error) => {
-        setError(true);
-      });
-    OrderDetails.phase.setOrderPhase("confirmation");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setOrderPhase("completed");
   };
 
   const popover = (
@@ -32,8 +19,6 @@ export default function SummaryForm() {
       </Popover.Body>
     </Popover>
   );
-
-  const errMsg = error ? <AlertBanner /> : null;
 
   const checkboxLabel = (
     <span>
@@ -45,7 +30,7 @@ export default function SummaryForm() {
   );
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Form.Group controlId="terms-and-conditions">
         <Form.Check
           type="checkbox"
@@ -54,15 +39,9 @@ export default function SummaryForm() {
           label={checkboxLabel}
         />
       </Form.Group>
-      <Button
-        variant="primary"
-        type="button"
-        disabled={!tcChecked}
-        onClick={orderSubmitHandler}
-      >
+      <Button variant="primary" type="submit" disabled={!tcChecked}>
         Confirm order
       </Button>
-      {errMsg}
     </Form>
   );
 }

@@ -4,7 +4,7 @@ import { useOrderDetails } from "../../contexts/OrderDetails";
 import SummaryForm from "./SummaryForm";
 import OptionSummary from "./OptionSummary";
 
-function OrderSummary() {
+function OrderSummary({ setOrderPhase }) {
   const [OrderDetails] = useOrderDetails();
 
   return (
@@ -16,7 +16,7 @@ function OrderSummary() {
 
       <h3>Total {OrderDetails.totals.grandTotal}</h3>
 
-      <SummaryForm />
+      <SummaryForm setOrderPhase={setOrderPhase} />
     </Container>
   );
 }

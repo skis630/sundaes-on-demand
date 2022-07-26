@@ -1,37 +1,42 @@
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { useState, useEffect, Suspense } from "react";
 
 import { useOrderDetails } from "../../contexts/OrderDetails";
+import AlertBanner from "../../common/AlertBanner";
 
-function OrderConfirmation() {
-  const [OrderDetails, updateItemCount] = useOrderDetails();
+function OrderConfirmation({ setOrderPhase }) {
+  const [, , resetCounts] = useOrderDetails();
+  const [error, setError] = useState(false);
+  const [orderNumber, setOrderNumber] = useState(null);
 
-  function resetCounts() {
-    const scoopOptions = [...OrderDetails.scoops.keys()];
-    const toppingOptions = [...OrderDetails.toppings.keys()];
-
-    // reset option counts to zero
-    scoopOptions.forEach((scoopItem) =>
-      updateItemCount(scoopItem, "0", "scoops")
-    );
-    toppingOptions.forEach((toppingItem) =>
-      updateItemCount(toppingItem, "0", "toppings")
-    );
-  }
+  useEffect(() => {
+    axios
+      .post("http://localhost:3030/order")
+      .then((response) => setOrderNumber(response.data.orderNumber))
+      .catch((error) => {
+        setError(true);
+      });
+    setOrderPhase("completed");
+  }, []);
 
   const newOrderHandler = () => {
     resetCounts();
-    OrderDetails.phase.setOrderPhase("order");
+    setOrderPhase("inProgress");
   };
+
+  const errMsg = error ? <AlertBanner /> : null;
 
   return (
     <Container>
       <h1>Thank you!</h1>
-      <h3>Your order number is {OrderDetails.orderNumber.orderNumber}</h3>
+      <h3>Your order number is {orderNumber}</h3>
       <p>As per our terms and conditions, nothing will happen now</p>
       <Button variant="primary" onClick={newOrderHandler}>
         Create new order
       </Button>
+      {errMsg}
     </Container>
   );
 }

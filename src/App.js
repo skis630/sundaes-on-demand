@@ -7,39 +7,29 @@ import OrderConfirmation from "./pages/confirmation/OrderConfirmation";
 import { OrderDetailsProvider } from "./contexts/OrderDetails";
 
 function App() {
-  const [orderPhase, setOrderPhase] = useState("order");
-  const [orderNumber, setOrderNumber] = useState(null);
-  let content = null;
+  const [orderPhase, setOrderPhase] = useState("inProgress");
+  let Content = null;
 
   switch (orderPhase) {
-    case "order":
-      content = <OrderEntry />;
+    case "inProgress":
+      Content = OrderEntry;
       break;
-    case "summary":
-      content = <OrderSummary />;
+    case "review":
+      Content = OrderSummary;
       break;
-    case "confirmation":
-      content = <OrderConfirmation />;
+    case "completed":
+      Content = OrderConfirmation;
       break;
     default:
-      content = <OrderEntry />;
+      Content = OrderEntry;
       break;
   }
 
   return (
     <Container>
-      <OrderDetailsProvider
-        phase={{
-          orderPhase,
-          setOrderPhase: useCallback(setOrderPhase, [orderPhase]),
-        }}
-        orderNumber={{
-          orderNumber,
-          setOrderNumber: useCallback(setOrderNumber, [orderNumber]),
-        }}
-      >
+      <OrderDetailsProvider>
         {/* Summary page and entry page need provider */}
-        {content}
+        {<Content setOrderPhase={useCallback(setOrderPhase, [orderPhase])} />}
       </OrderDetailsProvider>
       {/* confirmation page does not need provider */}
     </Container>
