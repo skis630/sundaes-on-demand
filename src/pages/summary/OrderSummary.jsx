@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import SummaryForm from "./SummaryForm";
+import OptionSummary from "./OptionSummary";
 
 function OrderSummary() {
   const [OrderDetails] = useOrderDetails();
@@ -10,19 +11,8 @@ function OrderSummary() {
     <Container>
       <h1>Order Summary</h1>
 
-      <h3>Scoops {OrderDetails.totals.scoops}</h3>
-      <ul>
-        {Array.from(OrderDetails.scoops.keys()).map((scoop) => (
-          <li key={scoop}>{scoop}</li>
-        ))}
-      </ul>
-
-      <h3>Toppings {OrderDetails.totals.toppings}</h3>
-      <ul>
-        {Array.from(OrderDetails.toppings.keys()).map((topping) => (
-          <li key={topping}>{topping}</li>
-        ))}
-      </ul>
+      <OptionSummary optionType="scoops" />
+      <OptionSummary optionType="toppings" />
 
       <h3>Total {OrderDetails.totals.grandTotal}</h3>
 
