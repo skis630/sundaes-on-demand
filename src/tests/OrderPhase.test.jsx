@@ -50,14 +50,6 @@ test("order phases for happy path", async () => {
   await userEvent.click(newOrderBtn);
 
   // check that scoops and topping subtotals have reset on order page
-  const vanillaScoopInput = await screen.findByRole("spinbutton", {
-    name: "Vanilla",
-  });
-  const cherryTopping = await screen.findByRole("checkbox", {
-    name: "Cherries",
-  });
-  //   expect(vanillaInput).toHaveValue(0);
-  //   expect(cherryTopping).toHaveValue(0);
   const scoopsSubtotal = screen.getByText("Scoops total: $", { exact: false });
   expect(scoopsSubtotal).toHaveTextContent("0.00");
   const toppingsSubtotal = screen.getByText("Toppings total: $", {
