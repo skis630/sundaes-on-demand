@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useCallback } from "react";
 
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import AlertBanner from "../../common/AlertBanner";
@@ -19,7 +19,7 @@ function OrderConfirmation({ setOrderPhase }) {
         setError(true);
       });
     setOrderPhase("completed");
-  }, []);
+  }, [setOrderPhase]);
 
   const newOrderHandler = () => {
     resetCounts();
@@ -30,13 +30,19 @@ function OrderConfirmation({ setOrderPhase }) {
 
   return (
     <Container>
-      <h1>Thank you!</h1>
-      <h3>Your order number is {orderNumber}</h3>
-      <p>As per our terms and conditions, nothing will happen now</p>
-      <Button variant="primary" onClick={newOrderHandler}>
-        Create new order
-      </Button>
-      {errMsg}
+      {orderNumber ? (
+        <>
+          <h1>Thank you!</h1>
+          <h3>Your order number is {orderNumber}</h3>
+          <p>As per our terms and conditions, nothing will happen now</p>
+          <Button variant="primary" onClick={newOrderHandler}>
+            Create new order
+          </Button>
+          {errMsg}
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
     </Container>
   );
 }
