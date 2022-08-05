@@ -79,7 +79,7 @@ describe("Check that grand total updates properly", () => {
     });
     await userEvent.clear(vanillaInput);
     await userEvent.type(vanillaInput, "1");
-    const chocolateInput = await screen.findByRole("spinbutton", {
+    const chocolateInput = screen.getByRole("spinbutton", {
       name: "Chocolate",
     });
     await userEvent.clear(chocolateInput);
@@ -88,7 +88,7 @@ describe("Check that grand total updates properly", () => {
     // add toppings
     const cherries = await screen.findByRole("checkbox", { name: "Cherries" });
     await userEvent.click(cherries);
-    const hotFudge = await screen.findByRole("checkbox", { name: "Hot fudge" });
+    const hotFudge = screen.getByRole("checkbox", { name: "Hot fudge" });
     await userEvent.click(hotFudge);
 
     expect(grandTotal).toHaveTextContent("7.00");
