@@ -12,7 +12,9 @@ function OrderSummary({ setOrderPhase }) {
       <h1>Order Summary</h1>
 
       <OptionSummary optionType="scoops" />
-      <OptionSummary optionType="toppings" />
+      {OrderDetails.toppings.size > 0 && (
+        <OptionSummary optionType="toppings" />
+      )}
 
       <h3>Total {OrderDetails.totals.grandTotal}</h3>
 
