@@ -64,3 +64,25 @@ test("order phases for happy path", async () => {
   });
   expect(orderGrandTotal).toHaveTextContent("0.00");
 });
+
+test("Optional toppings on Summary page for happy path", async () => {
+  render(<App />);
+
+  //  add ice cream scoops
+  const vanillaInput = await screen.findByRole("spinbutton", {
+    name: "Vanilla",
+  });
+  await userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "1");
+  const chocolateInput = screen.getByRole("spinbutton", { name: "Chocolate" });
+  await userEvent.clear(chocolateInput);
+  userEvent.type(chocolateInput, "1");
+
+  // find and click order button
+  const orderBtn = screen.getByRole("button", { name: /order/i });
+  await userEvent.click(orderBtn);
+
+  // Toppings should not appear on Summary page
+  const noToppings = screen.queryByRole("heading", { name: /toppings/i });
+  expect(noToppings).not.toBeInTheDocument();
+});
