@@ -29,7 +29,14 @@ function App() {
     <Container>
       <OrderDetailsProvider>
         {/* Summary page and entry page need provider */}
-        {<Content setOrderPhase={useCallback(setOrderPhase, [orderPhase])} />}
+        {
+          <Content
+            setOrderPhase={useCallback(setOrderPhase, [
+              orderPhase,
+              setOrderPhase,
+            ])}
+          />
+        }
       </OrderDetailsProvider>
       {/* confirmation page does not need provider */}
     </Container>
