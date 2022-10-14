@@ -26,7 +26,9 @@ function OrderConfirmation({ setOrderPhase }) {
     setOrderPhase("inProgress");
   };
 
-  const errMsg = error ? <AlertBanner /> : null;
+  if (error) {
+    return <AlertBanner />;
+  }
 
   return (
     <Container>
@@ -38,7 +40,6 @@ function OrderConfirmation({ setOrderPhase }) {
           <Button variant="primary" onClick={newOrderHandler}>
             Create new order
           </Button>
-          {errMsg}
         </>
       ) : (
         <p>Loading...</p>
