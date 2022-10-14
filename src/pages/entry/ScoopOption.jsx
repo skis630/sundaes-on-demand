@@ -1,10 +1,18 @@
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { useState } from "react";
 
 export default function ScoopOptions({ name, imagePath, updateItemCount }) {
+  const [isInvalid, toggleInvalid] = useState(false);
   const handleChange = (event) => {
-    updateItemCount(name, event.target.value);
+    const scoopCount = parseFloat(event.target.value);
+    const invalid =
+      scoopCount < 0 || scoopCount > 10 || scoopCount !== parseInt(scoopCount);
+    if (!invalid) {
+      updateItemCount(name, scoopCount);
+    }
+    toggleInvalid(invalid);
   };
 
   return (
@@ -27,6 +35,7 @@ export default function ScoopOptions({ name, imagePath, updateItemCount }) {
             type="number"
             defaultValue={0}
             onChange={handleChange}
+            isInvalid={isInvalid}
           />
         </Col>
       </Form.Group>
